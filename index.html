@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de Margen</title>
+  <style>
+  body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+#app {
+  width: 300px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f8f8f8;
+}
+
+input[type="number"] {
+  width: 100%;
+  padding: 5px;
+  margin: 5px 0;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+    /* Aquí irá tu código CSS */
+  </style>
+</head>
+<body>
+  <div id="app">
+    <!-- Aquí irá tu contenido y elementos de formulario -->
+	<h1>Calculadora de Margen</h1>
+<label for="costo">Costo del Producto:</label>
+<input type="number" id="costo" step="0.01" placeholder="Costo">
+<label for="precio">Precio de Venta:</label>
+<input type="number" id="precio" step="0.01" placeholder="Precio">
+<label for="margen">Margen de Beneficio (%):</label>
+<input type="number" id="margen" step="0.01" placeholder="Margen">
+<button id="calcular">Calcular</button>
+  </div>
+  <script>
+    // Aquí irá tu código JavaScript
+document.getElementById('calcular').addEventListener('click', function () {
+  const costo = parseFloat(document.getElementById('costo').value);
+  const precioPublico = parseFloat(document.getElementById('precio').value);
+  const margen = parseFloat(document.getElementById('margen').value);
+  const iva = 0.19;
+
+  if (!isNaN(costo) && !isNaN(precioPublico)) {
+    const precioNeto = precioPublico / (1 + iva);
+    const margenCalculado = ((precioNeto - costo) / precioNeto) * 100;
+    document.getElementById('margen').value = margenCalculado.toFixed(2);
+  } else if (!isNaN(costo) && !isNaN(margen)) {
+    const precioNeto = costo / (1 - margen / 100);
+    const precioPublico = precioNeto * (1 + iva);
+    document.getElementById('precio').value = precioPublico.toFixed(2);
+  } else if (!isNaN(precioPublico) && !isNaN(margen)) {
+    const precioNeto = precioPublico / (1 + iva);
+    const costoCalculado = precioNeto - (margen / 100) * precioNeto;
+    document.getElementById('costo').value = costoCalculado.toFixed(2);
+  } else {
+    alert('Por favor, ingrese al menos dos valores para calcular el tercero.');
+  }
+});
+  </script>
+</body>
+</html>
